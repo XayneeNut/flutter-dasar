@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import './question.dart';
-import './answer.dart';
+import 'package:flutter_question_app/quiz.dart';
+import 'package:flutter_question_app/result.dart';
 
 void main() {
   runApp(FirstApp());
@@ -16,34 +15,97 @@ class FirstApp extends StatefulWidget {
 
 class _MyStateFirstApp extends State<FirstApp> {
   var _questionIndex = 0;
+  var _totalScore = 0;
 
-  void _quest() {
+  final _questions = [
+    {
+      'questionText':
+          'Saya suka menolong teman-teman saya, bila mereka berada dalam kesulitan',
+      'answer': [
+        {'text': 'sangat setuju', 'score': 5},
+        {'text': 'setuju', 'score': 4},
+        {'text': 'kurang setuju', 'score': 3},
+        {'text': 'tidak setuju', 'score': 2},
+        {'text': 'sangat tidak setuju', 'score': 1},
+      ]
+    },
+    {
+      'questionText': 'Saya akan melakukan pekerjaan apa saja sebaik mungkin',
+      'answer': [
+        {'text': 'sangat setuju', 'score': 5},
+        {'text': 'setuju', 'score': 4},
+        {'text': 'kurang setuju', 'score': 3},
+        {'text': 'tidak setuju', 'score': 2},
+        {'text': 'sangat tidak setuju', 'score': 1},
+      ]
+    },
+    {
+      'questionText':
+          'Saya akan mengetahui bagaimana pandangan orang-orang besar mengenai berbagai masalah yang menarik perhatian saya',
+      'answer': [
+        {'text': 'sangat setuju', 'score': 5},
+        {'text': 'setuju', 'score': 4},
+        {'text': 'kurang setuju', 'score': 3},
+        {'text': 'tidak setuju', 'score': 2},
+        {'text': 'sangat tidak setuju', 'score': 1},
+      ]
+    },
+    {
+      'questionText': 'Saya suka menjadi pusat perhatian dalam suatu kelompok',
+      'answer': [
+        {'text': 'sangat setuju', 'score': 5},
+        {'text': 'setuju', 'score': 4},
+        {'text': 'kurang setuju', 'score': 3},
+        {'text': 'tidak setuju', 'score': 2},
+        {'text': 'sangat tidak setuju', 'score': 1},
+      ]
+    },
+    {
+      'questionText':
+          'Saya suka mengecam orang-orang yang mempunyai kedudukan sebagai yang berwenang',
+      'answer': [
+        {'text': 'sangat setuju', 'score': 5},
+        {'text': 'setuju', 'score': 4},
+        {'text': 'kurang setuju', 'score': 3},
+        {'text': 'tidak setuju', 'score': 2},
+        {'text': 'sangat tidak setuju', 'score': 1},
+      ]
+    },
+    {
+      'questionText':
+          'Saya akan mengetahui bagaimana pandangan orang-orang besar mengenai berbagai masalah yang menarik perhatian saya',
+      'answer': [
+        {'text': 'sangat setuju', 'score': 5},
+        {'text': 'setuju', 'score': 4},
+        {'text': 'kurang setuju', 'score': 3},
+        {'text': 'tidak setuju', 'score': 2},
+        {'text': 'sangat tidak setuju', 'score': 1},
+      ]
+    },
+  ];
+
+  void _quest(int score) {
+    _totalScore += score;
+
     setState(() {
       _questionIndex = _questionIndex + 1;
-      if (_questionIndex > 2) {
-        _questionIndex = _questionIndex - 3;
-      }
     });
+
+    if (_questionIndex < _questions.length) {
+      print('you have more question');
+    }
     print(_questionIndex);
+  }
+
+  void _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      {
-        'questionText': 'apa kamu orang indonesia?',
-        'answer': ['ya', 'tidak', 'tidak tau']
-      },
-      {
-        'questionText': 'berapa umur mu? ',
-        'answer': ['0 - 10', '11-20', '21 - 30', 'other']
-      },
-      {
-        'questionText': 'apa kamu programmer?',
-        'answer': ['ya', 'tidak', 'tidak tau', 'menuju']
-      },
-    ];
-
     var homeText = 'Hello!!';
     return MaterialApp(
       home: Scaffold(
@@ -52,17 +114,12 @@ class _MyStateFirstApp extends State<FirstApp> {
             titleTextStyle: const TextStyle(color: Colors.black),
             backgroundColor: Colors.amber,
           ),
-          body: Column(
-            children: [
-              Question(
-                questions[_questionIndex]['questionText'] as String,
-              ),
-              ...(questions[_questionIndex]['answer'] as List<String>)
-                  .map((answer) {
-                return Answer(_quest, answer);
-              }).toList()
-            ],
-          )),
+          body: _questionIndex < _questions.length
+              ? Quiz(
+                  questions: _questions,
+                  questionIndex: _questionIndex,
+                  answerQuestion: _quest)
+              : Result(_totalScore, _resetQuiz)),
     );
   }
 }

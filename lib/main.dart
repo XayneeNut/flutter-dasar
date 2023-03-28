@@ -27,7 +27,7 @@ class _MyStateFirstApp extends State<FirstApp> {
         {'text': 'kurang setuju', 'score': 3},
         {'text': 'tidak setuju', 'score': 2},
         {'text': 'sangat tidak setuju', 'score': 1},
-      ]
+      ]  
     },
     {
       'questionText': 'Saya akan melakukan pekerjaan apa saja sebaik mungkin',
@@ -108,10 +108,13 @@ class _MyStateFirstApp extends State<FirstApp> {
   Widget build(BuildContext context) {
     var homeText = 'Hello!!';
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
           appBar: AppBar(
             title: Text(homeText),
-            titleTextStyle: const TextStyle(color: Colors.black),
+            titleTextStyle: const TextStyle(
+                color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+            centerTitle: true,
             backgroundColor: Colors.amber,
           ),
           body: _questionIndex < _questions.length
